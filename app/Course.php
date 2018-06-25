@@ -19,6 +19,8 @@ class Course extends Model
     'useLocal' => 0,
   );
 
+  protected $visible = ['id', 'title', 'summary','length'];
+
   public function events()
   {
       return $this->hasMany('App\Event');

@@ -53,18 +53,16 @@ class CourseController extends Controller
         $course = Course::firstorNew(['id'=>$courseDecode['id']]);
 
         $course->title = $courseDecode['title'];
+        $course->summary = $courseDecode['summary'];
         $course->length = json_encode($courseDecode['course_text_7']);
-        if (! empty($courseDecode['prices'])) {
-          $course->price = $courseDecode['prices'][0]['price'];
-        }
-//        $course->price = 0;
+        if (! empty($courseDecode['prices']))
+          {
+            $course->price = $courseDecode['prices'][0]['price'];
+          }
         $course->page = strtolower(str_replace(' ', '-', 'https://www.gta.gg/course/'.$courseDecode['title']));
         $course->administrateCourseJSON = json_encode($courseDecode, JSON_PRETTY_PRINT);
-        // $course->categoriesJSON = json_encode(array("Pete","Fred"),JSON_PRETTY_PRINT);
         $course->categoriesJSON = $this->categories($courseDecode['categories']);
-        if (!$course->useLocal) {
-          $course->courseJSON = json_encode($courseDecode, JSON_PRETTY_PRINT);
-        }
+        $course->courseJSON = json_encode($courseDecode, JSON_PRETTY_PRINT);
         $course->save();
     }
 
@@ -78,58 +76,14 @@ class CourseController extends Controller
     {
         $course = Course::findorfail($id);
 
-        if ($course->useLocal) {
-          return $this->showLocal($id);
-        } else {
-          return $this->showAdministrate($id);
-        }
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showLocal($id)
-    {
-        $course = Course::findorfail($id);
-
         return view('pages/course', [
             'courseID'=>$course->id,
             'courseTitle'=>$course->title,
             'courseLength'=>$course->length,
             'coursePrice'=>$course->price,
             'courseCategories'=>$course->categoriesJSON,
-            'courseJSON'=>$course->courseJSON,
-            'useLocal'=>$course->useLocal,
-            'viewLocal'=>true
-        ]);
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showAdministrate($id)
-    {
-        $course = Course::findorfail($id);
-
-        return view('pages/course', [
-            'courseID'=>$course->id,
-            'courseTitle'=>$course->title,
-            'courseLength'=>$course->length,
-            'coursePrice'=>$course->price,
-            'courseCategories'=>$course->categoriesJSON,
-            'courseJSON'=>json_encode(json_decode($course->administrateCourseJSON,true), JSON_PRETTY_PRINT),
-            'useLocal'=>$course->useLocal,
-            'viewLocal'=>false
-        ]);
-
+            'courseJSON'=>$course->courseJSON
+          ]);
     }
 
     /**
@@ -163,7 +117,7 @@ class CourseController extends Controller
       return view('pages/updateCourse', [
         'courseID'=>$course->id,
         'courseTitle'=>$course->title,
-        'courseSummary'=>$courseDecode['summary'],
+        'courseSummary'=>$course->summary,
         'courseTopics'=>$courseDecode['topics'],
         'courseMethod'=>$courseDecode['method'],
         'courseBenefits'=>$courseDecode['benefits'],
@@ -189,7 +143,8 @@ class CourseController extends Controller
         $course = Course::findorfail($id);
 
         $courseDecode = json_decode($course->courseJSON,true);
-        $course->title = $request->courseTitle;
+        $course->title = $request->input('courseTitle');
+        $course->summary = $request->input('courseSummary');
         $courseDecode['title'] = $request->input('courseTitle');
         $courseDecode['summary'] = $request->input('courseSummary');
         $courseDecode['topics'] = $request->input('courseTopics');

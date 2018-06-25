@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "course",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique ID of the course",
+      "type": "integer",
+      "required":true,
+      "example": 19
+    },
+    "title": {
+      "description": "title of the course",
+      "type": "string",
+      "required":true,
+      "example": "Accounts Refresher"
+    },
+    "summary": {
+      "description": "more detailed definition of the course",
+      "type": "string",
+      "required":true,
+      "example": "An brief refresher course for those who have forgotton how to account"
+    },
+    "length": {
+      "description": "Length of the course (unformatted)",
+      "type": "string",
+      "required":true,
+      "example": "3 days"
+    }
+  }
+}
