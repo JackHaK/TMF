@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: Courses
+version: v0.1
+baseUri: http://gta.humbleandkind.co.uk/api/courses
+mediaType:
+  - application/json
+description: This simple API does something
+protocols:
+  - HTTP
+types:
+  Course: !include schemas/course.schema.json
+  Categories: 
+  Event:
+    type: object
+/:
+ post:
+   body:
+     application/json:
+       properties:
+
+
+
+/{id}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: Course
+            example: !include examples/course.json
