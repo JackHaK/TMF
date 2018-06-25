@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
           $table->integer('id');
 	        $table->string('title');
+          $table->binary('summary')->nullable();
           $table->binary('length');
           $table->float('price',8,2)->nullable();
           $table->boolean('active');
