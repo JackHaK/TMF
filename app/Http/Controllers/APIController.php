@@ -27,5 +27,11 @@ class APIController extends Controller
         return $courses;
     }
 
+    public function search($searchString)
+    {
+        $courses = Course::search($searchString)->raw();
+        return $courses;
+    }
+
 }
 ?>

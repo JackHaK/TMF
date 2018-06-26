@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('courses','APIController@Courses');
+Route::get('api/courses/search/{searchString}','APIController@Search')
 
 Route::get('events/{id}/cpm','EventAPIController@CPMEvent');
 Route::get('events/cpm','EventAPIController@CPMEvents');
