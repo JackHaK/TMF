@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use Event;
 
-class APIController extends Controller
+class CourseAPIController extends Controller
 {
   // constrain the controller to authorised users
   public function __construct()
@@ -27,7 +28,17 @@ class APIController extends Controller
         return $courses;
     }
 
-    public function search($searchString)
+    //searches the courses categories index based on an input string
+    public function search_by_category($searchString)
+    {
+        $courses = Course::search($searchString)
+            ->within('GTACourses_Categories')
+            ->raw();
+        return $courses;
+    }
+
+    //searches the courses index for based on an input string
+    public function search_by_text($searchString)
     {
         $courses = Course::search($searchString)->raw();
         return $courses;
