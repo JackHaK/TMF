@@ -19,13 +19,12 @@ class Course extends Model
     'useLocal' => 0,
   );
 
-  protected $visible = ['id', 'title', 'summary','length'];
+  protected $visible = ['id', 'title', 'summary','length','categoriesJSON'];
 
   public function events()
   {
       return $this->hasMany('App\Event');
   }
-
 
   use Searchable;
 

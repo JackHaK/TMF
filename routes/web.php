@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('pages.home');
 });
 
+Route::get('refdata/categories/inflate','InflateCategoriesController@loadingAll');
+Route::get('refdata/categories/inflateAll','InflateCategoriesController@inflateAll');
+Route::get('refdata/{refdatatype}', 'RefDataController@show');
+
 Route::get('courses/inflate','InflateCoursesController@loadingAll');
 Route::get('courses/inflateAll','InflateCoursesController@inflateAll');
 Route::get('courses/search/{searchString}','CourseController@search');

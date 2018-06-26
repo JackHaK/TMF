@@ -18,74 +18,32 @@ class EventAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $startDate = $request->input('startDate',date("Y-m-d"));
+        $endDate = $request->input('endDate',date("2019-12-30"));
+
         $events = Event::where('expired',false)
+          ->wherebetween('startDate', [$startDate, $endDate])
           ->orderBy('startDate','asc')
           ->get();
-        return $events;
+
+        $evArray=array();
+        foreach ($events as &$event)
+        {
+          $ev['eventID'] = $event->id;
+          $ev['courseTitle'] = $event->course->title;
+          $ev['courseDate'] = $event->startDate;
+          $ev['courseLength'] = $event->course->length;
+          $ev['coursePrice'] = $event->price;
+          $ev['courseSummary'] = $event->course->summary;
+          $ev['coursePage'] = $event->course->page;
+          $ev['courseCategories'] = $event->course->categoriesJSON;
+          array_push($evArray,$ev);
+        }
+        return $evArray;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create($EventJSON)
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store($eventJSON)
-    {
-      $today = date("Y-m-d");
-
-      $eventDecode = json_decode($eventJSON,true);
-
-      $event = Event::firstorNew(['id'=>$eventDecode['id']]);
-      $event->course_id = $eventDecode['course_id'];
-      $event->startDate = $eventDecode['start_date'];
-      $event->endDate = $eventDecode['end_date'];
-      if (! empty($eventDecode['prices'])) {
-        $event->price = $eventDecode['prices'][0]['price'];
-      }
-      if ($event->startDate < $today) {
-        $event->expired = true;
-      } else {
-        $event->expired = false;
-      }
-      $event->administrateEventJSON = json_encode($eventDecode, JSON_PRETTY_PRINT);
-
-      $event->save();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $event = Event::findorfail($id);
-
-        return $event;
-
-    }
-
-    /**
-     * Return JSON for Campaign Monitor.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function cpmEvent($id)
     {
       $event = Event::findorfail($id);
@@ -136,59 +94,5 @@ class EventAPIController extends Controller
       return $CPMArray;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-      //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-        //return $request;
-        $Event = Event::findorfail($id);
-
-        $EventDecode = json_decode($Event->EventJSON,true);
-        $Event->EventJSON = json_encode($EventDecode, JSON_PRETTY_PRINT);
-        $Event->save();
-        flash('<strong>Success!</strong> Event Updated')->success();
-        return redirect()->back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function search($searchString)
-    {
-        //
-        $Events = Event::search($searchString)->raw();
-        return $Events;
-    }
 }
 ?>

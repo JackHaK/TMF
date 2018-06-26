@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInflationsTable extends Migration
+class CreateRefdataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateInflationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inflations', function (Blueprint $table) {
-            $table->string('type');
-            $table->binary('JSON');
+        Schema::create('refdatas', function (Blueprint $table) {
+            $table->string('refdatatype');
+            $table->binary('refdataJSON');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateInflationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inflations');
+        Schema::dropIfExists('refdata');
     }
 }

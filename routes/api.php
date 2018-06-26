@@ -13,7 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('courses','APIController@Courses');
+Route::get('refdata/{refdatatype}', 'RefDataAPIController@show');
 
+Route::get('courses','CourseAPIController@index');
+Route::get('courses/{id}','CourseAPIController@show');
+Route::get('courses/search/{searchString}','CourseAPIController@search_by_text');
+Route::get('courses/category/{searchString}','CourseAPIController@search_by_category');
+
+Route::get('events','EventAPIController@index');
 Route::get('events/{id}/cpm','EventAPIController@CPMEvent');
 Route::get('events/cpm','EventAPIController@CPMEvents');
