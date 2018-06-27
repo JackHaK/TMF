@@ -19,7 +19,11 @@ class CourseAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
     public function courses()
+=======
+    public function index()
+>>>>>>> 495f65246f2176b8f16c1bd8d1807bbfa7c3adea
     {
         //
         $courses = Course::where('active',true)
@@ -28,6 +32,16 @@ class CourseAPIController extends Controller
         return $courses;
     }
 
+<<<<<<< HEAD
+=======
+    // returns specified course
+    public function show($id)
+    {
+        $course = Course::findorfail($id);
+        return $course;
+    }
+
+>>>>>>> 495f65246f2176b8f16c1bd8d1807bbfa7c3adea
     //searches the courses categories index based on an input string
     public function search_by_category($searchString)
     {
