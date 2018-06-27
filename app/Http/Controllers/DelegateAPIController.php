@@ -19,6 +19,9 @@ class DelegateAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     //collects delegate data and checks to see if the course event is still active
+     //returns the list of active courses for this delegate
     public function Courses_On($id)
     {
         //
@@ -44,6 +47,8 @@ class DelegateAPIController extends Controller
         return $delArray;
     }
 
+    //collects delegate data and checks to see if the course event is still active
+    //returns the list of expired courses for this delegate
     public function Courses_Been($id)
     {
         //
