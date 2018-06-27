@@ -12,6 +12,16 @@ class Delegate extends Model
        * @var array
        */
     protected $fillable = ['id'];
-    protected $visible = ['id','eventID','courseID','contactID','name','email'];
+    protected $visible = ['eventID','courseID','contactID',];
+
+    public function event()
+    {
+        return $this->belongsTo('App\Event', 'eventID');
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo('App\Contact');
+    }
 
 }
