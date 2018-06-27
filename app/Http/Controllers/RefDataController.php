@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-
-class RefDataController extends Controller
-{
-=======
 use App\Refdata;
 
 class RefDataController extends Controller
@@ -18,7 +13,6 @@ class RefDataController extends Controller
       $this->middleware('auth');
   }
 
->>>>>>> 495f65246f2176b8f16c1bd8d1807bbfa7c3adea
     /**
      * Display a listing of the resource.
      *
@@ -46,11 +40,7 @@ class RefDataController extends Controller
     public function store($refdatatype, $refdataJSON)
     {
       //
-<<<<<<< HEAD
-      $refdata = RefData::firstorNew('refdatatype'=>$refdatatype);
-=======
       $refdata = Refdata::firstorNew(['refdatatype'=>$refdatatype]);
->>>>>>> 495f65246f2176b8f16c1bd8d1807bbfa7c3adea
 
       $refdata->refdataJSON = $refdataJSON;
       $refdata->save();
@@ -64,13 +54,8 @@ class RefDataController extends Controller
      */
     public function show($refdatatype)
     {
-<<<<<<< HEAD
-      $refdata = Course::findorfail($refdatatype);
-      return $refdata->$refdataJSON;
-=======
       $refdata = Refdata::findorfail($refdatatype);
       return $refdata->refdataJSON;
->>>>>>> 495f65246f2176b8f16c1bd8d1807bbfa7c3adea
     }
 
     /**
