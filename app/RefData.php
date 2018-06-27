@@ -4,7 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RefData extends Model
+class Refdata extends Model
 {
     //
+
+  public $incrementing = false;
+  public $primaryKey = 'refdatatype';
+  protected $fillable = ['refdatatype'];
+
 }
