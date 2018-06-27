@@ -11,6 +11,7 @@ class Delegate extends Model
        *
        * @var array
        */
-  protected $fillable = ['id'];
+    protected $fillable = ['id'];
+    protected $visible = ['id','eventID','courseID','contactID','name','email'];
 
 }

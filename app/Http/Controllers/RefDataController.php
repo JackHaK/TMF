@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+class RefDataController extends Controller
+{
 use App\Refdata;
 
 class RefDataController extends Controller
@@ -40,6 +43,7 @@ class RefDataController extends Controller
     public function store($refdatatype, $refdataJSON)
     {
       //
+      $refdata = RefData::firstorNew('refdatatype'=>$refdatatype);
       $refdata = Refdata::firstorNew(['refdatatype'=>$refdatatype]);
 
       $refdata->refdataJSON = $refdataJSON;
@@ -54,6 +58,8 @@ class RefDataController extends Controller
      */
     public function show($refdatatype)
     {
+      $refdata = Course::findorfail($refdatatype);
+      return $refdata->$refdataJSON;
       $refdata = Refdata::findorfail($refdatatype);
       return $refdata->refdataJSON;
     }
