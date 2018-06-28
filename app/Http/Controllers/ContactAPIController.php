@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Delegate;
 use App\Event;
+use App\Contact;
 
 class ContactAPIController extends Controller
 {
@@ -45,10 +46,10 @@ class ContactAPIController extends Controller
             $all = true;
             break;
         default: //if anything other than above three options
-            return "Not a valid route: /api/contact/{$contactId}/events/{$attendType} - Valid options: '/events/attended', '/events/attending' or /events/";
+            return "Not a valid route: /api/contact/{$contactId}/events/{$attendType} -
+                    Valid options: '/events/attended', '/events/attending' or /events/";
         }
         //initialise array
-
         $evArray =array();
         //for each delegate record - return the event details.
         foreach ($delegates as &$delegate) {
@@ -66,6 +67,28 @@ class ContactAPIController extends Controller
             }
         }
         return $evArray;
+    }
+
+    public function ContactBooking($contactId,$eventId)
+    {
+        $contactId = (int)$contactId;
+        $eventId = (int)$eventId;
+        $credentials = env('ADMINISTRATE_USER','') . ":" . env('ADMINISTRATE_SECRET','');
+        $url = env('ADMINISTRATE_URL','') . '/api/v2/event/delegates';
+        $data = array("event_id" => $eventId, "notes" => 'Booking made through the Integration Tier', "contact_id" => $contactId);
+        $options = array(
+          'http' => array(
+            'method'  => 'POST',
+            'content' => json_encode($data),
+            'header'=>
+                  "Content-Type: application/json\r\n" .
+                  "Accept: application/json\r\n" .
+                  "Authorization: Basic " . base64_encode($credentials)
+          )
+        );
+      $context  = stream_context_create($options);
+      $result = file_get_contents($url, false, $context);
+      return $result;
     }
 
 }
