@@ -214,52 +214,6 @@ class EventController extends Controller
         //
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function booking($id)
-    {
-        //
-        $event = Event::findorfail($id);
-        $contacts = Contact::where('active',true)
-          ->where('name','like','Pete%')
-          ->orderBy('name','asc')
-          ->get();
-        return view('pages/booking', [
-            'event'=>$event,
-            'contacts'=>$contacts
-        ]);
-    }
-
-    /**
-     * Make booking in administrate.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function createBooking(Request $request, $id)
-    {
-      $contact = (int)$request->input('contactSelect');
-      $event = (int)$id;
-      $credentials = env('ADMINISTRATE_USER','') . ":" . env('ADMINISTRATE_SECRET','');
-      $url = env('ADMINISTRATE_URL','') . '/api/v2/event/delegates';
-      $data = array("event_id" => $event, "notes" => 'Booking made through the Integration Tier', "contact_id" => $contact);
-      $options = array(
-        'http' => array(
-          'method'  => 'POST',
-          'content' => json_encode($data),
-          'header'=>
-                "Content-Type: application/json\r\n" .
-                "Accept: application/json\r\n" .
-                "Authorization: Basic " . base64_encode($credentials)
-        )
-      );
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    return $result;
-    }
 
     /**
      * Remove the specified resource from storage.

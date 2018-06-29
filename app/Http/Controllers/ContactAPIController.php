@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Delegate;
 use App\Event;
 use App\Contact;
+use App\Traits\Booking;
 
 class ContactAPIController extends Controller
 {
+    use Booking;
   // constrain the controller to authorised users
   public function __construct()
   {
@@ -70,27 +72,18 @@ class ContactAPIController extends Controller
         return $evArray;
     }
 
-    public function ContactBooking($contactId,$eventId)
+    public function JsonBooking(Request $request, $contactId)
     {
-        $contactId = (int)$contactId;
-        $eventId = (int)$eventId;
-        $credentials = env('ADMINISTRATE_USER','') . ":" . env('ADMINISTRATE_SECRET','');
-        $url = env('ADMINISTRATE_URL','') . '/api/v2/event/delegates';
-        $data = array("event_id" => $eventId, "notes" => 'Booking made through the Integration Tier', "contact_id" => $contactId);
-        $options = array(
-          'http' => array(
-            'method'  => 'POST',
-            'content' => json_encode($data),
-            'header'=>
-                  "Content-Type: application/json\r\n" .
-                  "Accept: application/json\r\n" .
-                  "Authorization: Basic " . base64_encode($credentials)
-          )
-        );
-      $context  = stream_context_create($options);
-      $result = file_get_contents($url, false, $context);
-      return $result;
+        $json = $request->json()->All();
+        $jContactId = $json['contactID'];
+        $evId = $json['eventID'];
+        if ($jContactId != $contactId){
+            return "Payload Data contact ID {$jContactId} not Correct for ContactId {$contactId}";
+        }
+        else {
+            $responce = $this->CreateDeligateBooking($jContactId, $evId);
+            return $responce;
+        }
     }
-
 }
 ?>

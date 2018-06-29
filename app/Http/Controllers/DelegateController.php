@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Delegate;
+use App\Contact;
+use App\Event;
+use App\Traits\Booking;
 
 class DelegateController extends Controller
 {
+    //Traits
+        use Booking;
+    //
+
   // constrain the controller to authorised users
-  public function __construct()
-  {
-      $this->middleware('auth');
-  }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,6 +45,43 @@ class DelegateController extends Controller
     public function create($delegateJSON)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function Booking($eventId)
+    {
+        //
+        $event = Event::findorfail($eventId);
+        $contacts = Contact::where('active',true)
+          ->where('name','like','Pete%')
+          ->orderBy('name','asc')
+          ->get();
+        return view('pages/booking', [
+            'event'=>$event,
+            'contacts'=>$contacts
+        ]);
+    }
+
+    public function HtmlBooking(Request $request, $eventId)
+    {
+        $contactId = (int)$request->input('contactSelect');
+        $this->CreateDelegate($contactId,$eventId);
+    }
+
+    /**
+     * Make booking in administrate.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function CreateDelegate($contactId, $eventId)
+    {
+        $responce = $this->CreateDeligateBooking($contactId, $eventId);
+        return $responce;
     }
 
     /**

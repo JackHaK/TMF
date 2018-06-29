@@ -37,8 +37,8 @@ Route::post('events/select','EventController@select');
 Route::get('events/{id}/inflate','InflateEventsController@inflate');
 Route::get('events/{id}/delegates', 'DelegateController@index');
 Route::get('events/{id}/delegates/inflate','InflateDelegatesController@inflate');
-Route::get('events/{id}/booking','EventController@booking');
-Route::post('events/{id}/createBooking','EventController@createBooking');
+Route::get('events/{id}/booking','DelegateController@Booking');
+Route::post('events/{id}/createBooking','DelegateController@HtmlBooking');
 Route::get('events/{id}/cpm','EventController@CPMEvent');
 Route::get('events/cpm','EventController@CPMEvents');
 
