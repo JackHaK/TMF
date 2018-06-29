@@ -53,16 +53,17 @@ class ContactAPIController extends Controller
         $evArray =array();
         //for each delegate record - return the event details.
         foreach ($delegates as &$delegate) {
-            $expired = $delegate->event->expired;
+            $event = $delegate->event;
+            $expired = $event->expired;
             if (!$expired&&$attending || $expired&&$attended || $all){
-                $ev['eventID'] = $delegate->event->id;
-                $ev['courseTitle'] = $delegate->event->course->title;
-                $ev['courseDate'] = $delegate->event->startDate;
-                $ev['courseLength'] = $delegate->event->course->length;
-                $ev['coursePrice'] = $delegate->event->price;
-                $ev['courseSummary'] = $delegate->event->course->summary;
-                $ev['coursePage'] = $delegate->event->course->page;
-                $ev['courseCategories'] = $delegate->event->course->categoriesJSON;
+                $ev['eventID'] = $event->id;
+                $ev['courseTitle'] = $event->course->title;
+                $ev['courseDate'] = $event->startDate;
+                $ev['courseLength'] = $event->course->length;
+                $ev['coursePrice'] = $event->price;
+                $ev['courseSummary'] = $event->course->summary;
+                $ev['coursePage'] = $event->course->page;
+                $ev['courseCategories'] = $event->course->categoriesJSON;
                 array_push($evArray,$ev);
             }
         }
