@@ -14,7 +14,7 @@ class RefDataAPIController extends Controller
     public function show($refdatatype)
     {
       $refdata = Refdata::findorfail($refdatatype);
-      return $refdata->refdataJSON;
+      return response()->json(json_decode($refdata->refdataJSON));
     }
 
 }

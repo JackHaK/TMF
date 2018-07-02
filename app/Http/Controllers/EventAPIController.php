@@ -48,7 +48,6 @@ class EventAPIController extends Controller
     {
       $event = Event::findorfail($id);
 
-      $eventDecode = json_decode($event->administrateEventJSON,true);
 /*
 1.	Course name
 2.	Course date
@@ -63,7 +62,7 @@ class EventAPIController extends Controller
       $CPM['courseDate'] = $event->startDate;
       $CPM['courseLength'] = $event->course->length;
       $CPM['coursePrice'] = $event->price;
-      $CPM['courseSummary'] = $eventDecode['course']['summary'];
+      $CPM['courseSummary'] = $event->course->summary;
       $CPM['coursePage'] = $event->course->page;
       $CPM['courseCategories'] = $event->course->categoriesJSON;
 

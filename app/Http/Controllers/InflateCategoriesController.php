@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\FormatCategories;
 use Storage;
 
 class InflateCategoriesController extends Controller
 {
+    //Traits
+    use FormatCategories;
+
   // constrain the controller to authorised users
   public function __construct()
   {
-      $this->middleware('auth');
+  //    $this->middleware('auth');
   }
 
   /**
@@ -35,15 +39,13 @@ Public function inflateAll()
   $context  = stream_context_create($options);
   $result = file_get_contents($url, false, $context);
 
-  /* Process the returned JSON string **/
-  $AdministrateCategories = json_decode($result,true);
-
   /* Create a new refdata **/
   $refdata = new RefDataController;
-  $refdata->store('Categories',$this->categories($AdministrateCategories));
+  $refdata->store('Categories',$this->FormatCategories($result));
+  // $refdata->store('Categories',$result);
 
   flash('<strong>Success!</strong> Categories Re-inflated from Administrate')->success();
-  return redirect()->back();
+  return "true"; //redirect()->back();
 }
 
 public function loadingAll()
@@ -55,28 +57,6 @@ public function loadingAll()
     ]);
 }
 
-/**
- * Format Categories Helper.
- *
- * @param  int  $id
- * @return \Illuminate\Http\Response
- */
-private function categories($categoriesAdministrate)
-{
-    //
-  $categories = array();
-  foreach ($categoriesAdministrate as &$category)
-  {
-    $subCategories = array();
-    if (! empty($category['sub_categories']))
-    {
-      foreach ($category['sub_categories'] as &$subCategory)
-      array_push($subCategories,$subCategory['title']);
-    }
-    array_push($categories,array("name"=>$category['name'],"subCategories"=>$subCategories));
-  }
-    return json_encode($categories);
-}
 
 }
 ?>

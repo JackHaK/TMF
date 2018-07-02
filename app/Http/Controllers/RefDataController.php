@@ -10,7 +10,7 @@ class RefDataController extends Controller
   // constrain the controller to authorised users
   public function __construct()
   {
-      $this->middleware('auth');
+      //$this->middleware('auth');
   }
 
     /**
@@ -41,7 +41,6 @@ class RefDataController extends Controller
     {
       //
       $refdata = Refdata::firstorNew(['refdatatype'=>$refdatatype]);
-
       $refdata->refdataJSON = $refdataJSON;
       $refdata->save();
     }
@@ -55,7 +54,7 @@ class RefDataController extends Controller
     public function show($refdatatype)
     {
       $refdata = Refdata::findorfail($refdatatype);
-      return $refdata->refdataJSON;
+      return response()->json(json_decode($refdata->refdataJSON));
     }
 
     /**

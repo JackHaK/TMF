@@ -3,7 +3,7 @@
 <script>
 $.ajax({
                type:'GET',
-               url:'/categories/inflateAll',
+               url:'/refdata/categories/inflateAll',
                timeout:0,
                success:function(data, textStatus){
                   alert('Categories Inflate Complete');
