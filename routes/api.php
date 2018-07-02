@@ -29,6 +29,7 @@ Route::get('events','EventAPIController@index');
 Route::get('events/{id}/cpm','EventAPIController@CPMEvent');
 Route::get('events/cpm','EventAPIController@CPMEvents');
 
-//Deligate things
+//Contact things
 Route::get('contact/{contactId}/events/{attendType?}','ContactAPIController@ContactEvents');
 Route::post('contact/{contactId}/book','ContactAPIController@JsonBooking');
+Route::post('contact/create','ContactAPIController@CreateContact');

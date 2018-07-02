@@ -10,12 +10,38 @@ use App\Traits\Booking;
 
 class ContactAPIController extends Controller
 {
-    use Booking;
-  // constrain the controller to authorised users
-  public function __construct()
-  {
-      //$this->middleware('auth');
-  }
+    // trait usage
+    use Booking; // allow usage of the booking trait in this class
+
+    // constrain the controller to authorised users
+    public function __construct()
+    {
+        //$this->middleware('auth');
+    }
+
+    /*
+    *   Function that creates a contact using a
+    *   POST; requires contact JSON packet to run.
+    * <parameters> Request $request (contact JSON) <parameters>
+    */
+    public function CreateContact(Request $request)
+    {
+        $today = date("Y-m-d");
+        $contactDecode = $request->json()->All();
+
+        $contact = Contact::firstorNew(['id'=>$contactDecode['id']]);
+        $contact->name = $contactDecode['first_name'] . " " . $contactDecode['last_name'];
+        $contact->email = $contactDecode['email'];
+        if ($contactDecode['is_deleted'] or $contactDecode['dormant']) {
+          $contact->active = false;
+        } else {
+          $contact->active = true;
+        }
+        $contact->administrateContactJSON = json_encode($contactDecode, JSON_PRETTY_PRINT);
+
+        $contact->save();
+        return $contact;
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,7 +49,7 @@ class ContactAPIController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //collects delegate data and checks to see if the course event is still active
+     //collects delegate data and
      //returns the list of courses for this delegate given perameters
     public function ContactEvents($contactId,$attendType = NULL)
     {
