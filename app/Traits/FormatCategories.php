@@ -19,13 +19,13 @@ trait FormatCategories
             if (! empty($category['sub_categories']))
             {
                 foreach ($category['sub_categories'] as &$subCategory)
-                array_push($subCategories,array("id" => $subCategory['id'],"title" => $subCategory['title'], "slug" => $this -> CreateSlug($subCategory['title'])));
+                array_push($subCategories,array("id" => $subCategory['id'],"title" => $subCategory['title'], "slug" => str_slug($subCategory['title'],'-')));
             }
             if (empty($subCategories)) {
-                array_push($categories,array("id"=>$category['id'],"title"=>$category['name'], "slug" =>  $this -> CreateSlug($category['name'])));
+                array_push($categories,array("id"=>$category['id'],"title"=>$category['name'], "slug" =>  str_slug($category['name'],'-')));
             }
             else {
-                array_push($categories,array("id"=>$category['id'],"title"=>$category['name'], "slug" =>  $this -> CreateSlug($category['name']),"categories"=>$subCategories));
+                array_push($categories,array("id"=>$category['id'],"title"=>$category['name'], "slug" =>  str_slug($category['name'],'-'),"categories"=>$subCategories));
             }
         }
         $theReturn['categories']=$categories;
