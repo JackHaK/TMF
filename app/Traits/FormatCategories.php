@@ -1,13 +1,10 @@
 <?php
 namespace App\Traits;
-
-use App\Traits\CreateSlug;
 /**
  *
  */
 trait FormatCategories
 {
-    use CreateSlug;
 
     public function FormatCategories($categoriesJson)
     {
