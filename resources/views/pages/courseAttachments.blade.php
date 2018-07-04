@@ -14,12 +14,12 @@
   </div>
 
   <div class="col-md-4 col-md-offset-4">
-    <button class="btn btn-primary" type="submit" form="attachmentsForm" value="Submit">
+    <button class="btn btn-primary" name="upload" type="submit" form="attachmentsForm" value="Submit">
       Upload
     </button>
-    <a class="btn btn-primary" href="/">
+    <button class="btn btn-primary" name="delete" type="submit" form="attachmentsForm" value="Submit">
       Delete
-    </a>
+  </button>
     <a class="btn btn-primary" href="/courses/{{$courseID}}">
       Cancel
     </a>

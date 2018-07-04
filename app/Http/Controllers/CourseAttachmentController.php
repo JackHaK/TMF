@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Storage;
 
 class CourseAttachmentController extends Controller
@@ -26,6 +27,18 @@ class CourseAttachmentController extends Controller
           'courseID'=>$id,
           'attachments'=>$attachments
       ]);
+    }
+
+    public function action(Request $request, $id)
+    {
+        $file;
+        if (Input::get('upload')) {
+            $this->create($request, $id);
+        }
+        else if (Input::get('delete')) {
+            $this->destroy($request, $id);
+        }
+        return redirect()->back();
     }
 
     /**
@@ -96,24 +109,28 @@ class CourseAttachmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $file)
+    public function destroy(Request $request, $id)
     {
-        $p = 'attachments/courses/'.$id.'/'.$file;
-        $deletable = Storage::files('attachments/courses/'.$id);
-        $bDeleted = false;
-        foreach ($deletable as $path) {
-            if ($path == $p)
-            {
-                Storage::delete($path);
-                $bDeleted = true;
+        $p = $request->input('attachmentSelect');
+        if (!$p){flash('<strong>WARNING!</strong> No File Selected')->warning();}
+        else {
+            $deletable = Storage::files('attachments/courses/'.$id);
+            $bDeleted = false;
+            foreach ($deletable as $path) {
+                if ($path == $p)
+                {
+                    Storage::delete($path);
+                    $bDeleted = true;
+                }
+            }
+            if ($bDeleted) {
+                flash('<strong>Success!</strong> File Deleted')->success();
+            }
+            else {
+                flash('<strong>WARNING!</strong> File Not Found')->warning();
             }
         }
-        if ($bDeleted) {
-            flash('<strong>Success!</strong> File Deleted')->success();
-        }
-        else {
-            flash('<strong>WARNING!</strong> File Not')->warning();
-        }
+
         return redirect()->back();
 
     }
