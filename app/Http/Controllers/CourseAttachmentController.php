@@ -96,8 +96,25 @@ class CourseAttachmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $file)
     {
-        //
+        $p = 'attachments/courses/'.$id.'/'.$file;
+        $deletable = Storage::files('attachments/courses/'.$id);
+        $bDeleted = false;
+        foreach ($deletable as $path) {
+            if ($path == $p)
+            {
+                Storage::delete($path);
+                $bDeleted = true;
+            }
+        }
+        if ($bDeleted) {
+            flash('<strong>Success!</strong> File Deleted')->success();
+        }
+        else {
+            flash('<strong>WARNING!</strong> File Not')->warning();
+        }
+        return redirect()->back();
+
     }
 }
