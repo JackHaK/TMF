@@ -29,6 +29,7 @@ class CourseAttachmentController extends Controller
       ]);
     }
 
+    //checks which button has been pressed on the atachments webpage and acts accordingly
     public function action(Request $request, $id)
     {
         $file;
@@ -38,6 +39,7 @@ class CourseAttachmentController extends Controller
         else if (Input::get('delete')) {
             $this->destroy($request, $id);
         }
+        //refresh
         return redirect()->back();
     }
 
@@ -111,18 +113,28 @@ class CourseAttachmentController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        //store the selected file path
         $p = $request->input('attachmentSelect');
+        //if no file selected - let the user know
         if (!$p){flash('<strong>WARNING!</strong> No File Selected')->warning();}
         else {
+            //open the directory that has the attachments for this course in storage
             $deletable = Storage::files('attachments/courses/'.$id);
-            $bDeleted = false;
+
+            $bDeleted = false;//deletion boolian
+
+            //search for the file within the directory
             foreach ($deletable as $path) {
+                //if file is found
                 if ($path == $p)
                 {
+                    //delete it
                     Storage::delete($path);
+                    //set boolian
                     $bDeleted = true;
                 }
             }
+            //give user a nice little visual for pleasentness
             if ($bDeleted) {
                 flash('<strong>Success!</strong> File Deleted')->success();
             }
@@ -130,7 +142,7 @@ class CourseAttachmentController extends Controller
                 flash('<strong>WARNING!</strong> File Not Found')->warning();
             }
         }
-
+        //refresh the page
         return redirect()->back();
 
     }
