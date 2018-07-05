@@ -18,7 +18,6 @@ use Illuminate\Http\Request;
 Route::get('refdata/{refdatatype}', 'RefDataAPIController@show');
 
 //Course things
-Route::get('courses','CourseAPIController@Courses');
 Route::get('courses','CourseAPIController@index');
 Route::get('courses/{id}','CourseAPIController@show');
 Route::get('courses/search/{searchString}','CourseAPIController@search_by_text');

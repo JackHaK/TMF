@@ -20,7 +20,7 @@ class CourseAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function courses()
+    public function index()
     {
         //
         $courses = Course::where('active',true)
@@ -36,6 +36,12 @@ class CourseAPIController extends Controller
             ->within('GTACourses_Categories')
             ->raw();
         return $courses;
+    }
+
+    public function show($id)
+    {
+        $course = Course::findorfail($id);
+        return $course;
     }
 
     //searches the courses index for based on an input string

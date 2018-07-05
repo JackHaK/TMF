@@ -118,21 +118,12 @@ class CourseAttachmentController extends Controller
         //if no file selected - let the user know
         if (!$p){flash('<strong>WARNING!</strong> No File Selected')->warning();}
         else {
-            //open the directory that has the attachments for this course in storage
-            $deletable = Storage::files('attachments/courses/'.$id);
-
-            $bDeleted = false;//deletion boolian
-
-            //search for the file within the directory
-            foreach ($deletable as $path) {
-                //if file is found
-                if ($path == $p)
-                {
-                    //delete it
-                    Storage::delete($path);
-                    //set boolian
-                    $bDeleted = true;
-                }
+            if(Storage::exists($p)) {
+                Storage::delete($p/*'attachments/courses/'.$id*/);
+                $bDeleted = true;//deletion boolian
+            }
+            else {
+                $bDeleted = false;
             }
             //give user a nice little visual for pleasentness
             if ($bDeleted) {
