@@ -60,8 +60,8 @@ class CourseAPIController extends Controller
 
             array_push($array,$ar);
         }
-
-        return $array;
+        $theReturn['courses']=$array;
+        return $theReturn;
     }
 
 }
