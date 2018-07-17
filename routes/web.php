@@ -31,11 +31,7 @@ Route::get('courses/{id}/administrate','CourseController@showAdministrate');
 Route::get('courses/{id}/events','CourseController@showEvents');
 Route::get('courses/{id}/events/inflate','InflateEventsController@inflateCourseEvents');
 Route::get('courses/{id}/attachments','CourseAttachmentController@index');
-<<<<<<< HEAD
-Route::post('courses/{id}/attachments/upload','CourseAttachmentController@create');
-=======
 Route::post('courses/{id}/attachments/action','CourseAttachmentController@action');
->>>>>>> JacksBranch
 
 Route::get('events/inflate','InflateEventsController@loadingAll');
 Route::get('events/inflateAll','InflateEventsController@inflateAll');
