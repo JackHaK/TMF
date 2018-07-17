@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use Storage;
+use App\Course;
 
 class InflateEventsController extends Controller
 {
@@ -67,6 +70,17 @@ Public function inflate($EventID)
   return redirect()->back();
 }
 
+Public function inflateAllCourseEvents()
+{
+  $courses = Course::all();
+
+  foreach ($courses as &$course)
+    {
+      $this->inflateCourseEvents($course->id);
+      Log::info('Inflating Course: '.$course->id);
+    }
+}
+
 Public function inflateCourseEvents($courseID)
 {
   /* $credentials = '(username):(password)'; **/
@@ -117,7 +131,7 @@ Private function inflateAllFromAdministrate()
       'method'  => 'GET',
       'header'=>  "Accept: application/json\r\n" .
                   "Authorization: Basic " . base64_encode($credentials),
-      'timeout'=>600
+      'timeout'=>1200
     )
   );
   $context  = stream_context_create($options);

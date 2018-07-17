@@ -18,6 +18,18 @@ class EventAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function indexAdministrate(Request $request)
+    {
+      ini_set('memory_limit', '512M');
+      $events = Event::all();
+      $evArray=array();
+      foreach ($events as &$event)
+      {
+        array_push($evArray,json_decode($event->administrateEventJSON,true));
+      }
+      return $evArray;
+    }
+
     public function index(Request $request)
     {
         $startDate = $request->input('startDate',date("Y-m-d"));

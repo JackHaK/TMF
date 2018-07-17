@@ -35,6 +35,7 @@ Route::post('courses/{id}/attachments/action','CourseAttachmentController@action
 
 Route::get('events/inflate','InflateEventsController@loadingAll');
 Route::get('events/inflateAll','InflateEventsController@inflateAll');
+Route::get('events/inflateCourses','InflateEventsController@inflateAllCourseEvents');
 Route::post('events/select','EventController@select');
 Route::get('events/{id}/inflate','InflateEventsController@inflate');
 Route::get('events/{id}/delegates', 'DelegateController@index');

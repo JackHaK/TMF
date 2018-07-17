@@ -28,6 +28,7 @@ Route::get('courses/{id}/attachments','CourseAPIController@CourseAttachments');
 Route::get('events','EventAPIController@index');
 Route::get('events/{id}/cpm','EventAPIController@CPMEvent');
 Route::get('events/cpm','EventAPIController@CPMEvents');
+Route::get('events/administrate','EventAPIController@indexAdministrate');
 
 //Contact things
 Route::get('contact/{contactId}/events/{attendType?}','ContactAPIController@ContactEvents');
