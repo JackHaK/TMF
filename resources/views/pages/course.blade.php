@@ -20,6 +20,9 @@
     <a class="btn btn-primary" href="/courses/{{$courseID}}/events">
       Events
     </a>
+    <a class="btn btn-primary" href="/courses/{{$courseID}}/attachments">
+      Attachments
+    </a>
     <a class="btn btn-primary" href="/courses">
       Cancel
     </a>

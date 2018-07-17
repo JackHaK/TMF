@@ -19,13 +19,19 @@ class CourseAPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function courses()
+    public function index()
     {
         //
         $courses = Course::where('active',true)
           ->orderBy('title','asc')
           ->get();
         return $courses;
+    }
+
+    public function show($id)
+    {
+      $course = Course::findorfail($id);
+      return $course;
     }
 
     //searches the courses categories index based on an input string

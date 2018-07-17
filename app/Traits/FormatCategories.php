@@ -7,7 +7,6 @@ use App\Traits\CreateSlug;
  */
 trait FormatCategories
 {
-    use CreateSlug;
 
     public function FormatCategories($categoriesJson)
     {
@@ -28,7 +27,7 @@ trait FormatCategories
                 array_push($categories,array("id"=>$category['id'],"title"=>$category['name'], "slug" =>  str_slug($category['name'],'-'),"categories"=>$subCategories));
             }
         }
-        $theReturn['categories']=$categories;
-        return json_encode($theReturn);
+        ;
+        return json_encode($categories);
     }
 }
