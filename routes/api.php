@@ -22,6 +22,7 @@ Route::get('courses','CourseAPIController@index');
 Route::get('courses/{id}','CourseAPIController@show');
 Route::get('courses/search/{searchString}','CourseAPIController@search_by_text');
 Route::get('courses/category/{searchString}','CourseAPIController@search_by_category');
+Route::get('courses/{id}/attachments','CourseAPIController@CourseAttachments');
 
 //Events things
 Route::get('events','EventAPIController@index');
