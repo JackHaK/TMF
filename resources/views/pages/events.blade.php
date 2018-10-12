@@ -14,8 +14,11 @@
   </div>
 
   <div class="col-md-4 col-md-offset-4">
-    <button class="btn btn-primary" type="submit" form="eventsForm" value="Submit">
+    <button class="btn btn-primary" name="select" type="submit" form="eventsForm" value="Submit">
       Select
+    </button>
+    <button class="btn btn-primary" name="delete" type="submit" form="eventsForm" value="Submit">
+      Delete
     </button>
     <a class="btn btn-primary" href="events/inflate">
       Inflate

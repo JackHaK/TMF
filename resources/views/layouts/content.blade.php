@@ -11,6 +11,7 @@
     </header>
 
     <div class="row">
+      !!! DEVELOPMENT !!!
       @include('flash::message')
       @yield('content')
     </div>

@@ -44,6 +44,7 @@ Route::get('events/{id}/booking','DelegateController@Booking');
 Route::post('events/{id}/createBooking','DelegateController@HtmlBooking');
 Route::get('events/{id}/cpm','EventController@CPMEvent');
 Route::get('events/cpm','EventController@CPMEvents');
+Route::get('events/{id}/delete','EventController@destroy');
 
 Route::resource('events', 'EventController');
 

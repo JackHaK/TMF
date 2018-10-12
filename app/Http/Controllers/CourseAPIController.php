@@ -44,12 +44,6 @@ class CourseAPIController extends Controller
         return $courses;
     }
 
-    public function show($id)
-    {
-        $course = Course::findorfail($id);
-        return $course;
-    }
-
     //searches the courses index for based on an input string
     public function search_by_text($searchString)
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Event;
 use App\Contact;
 
@@ -78,10 +79,16 @@ class EventController extends Controller
      */
     public function select(Request $request)
     {
+      if (Input::get('select')) {
         return redirect()->action(
           'EventController@show',
           ['id' => $request->input('eventSelect')]
         );
+      }
+      else if (Input::get('delete')) {
+        $this->destroy($request->input('eventSelect'));
+        return redirect()->back();
+      }
     }
 
     /**
@@ -211,7 +218,9 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $Event = Event::destroy($id);
+
+      flash('<strong>Success!</strong> Event Removed from itegration tier')->success();
     }
 
 

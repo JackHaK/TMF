@@ -32,10 +32,15 @@ Public function inflateAll()
 
   /* Process the returned JSON string **/
   $AdministrateContacts = json_decode($result,true);
-
+  $count = 0;
   /* for each Contact returned from Administrate **/
   foreach ($AdministrateContacts as &$AdministrateContact)
     {
+    /* only do 100 if local load */
+    if ($count++ === 100 and $env ==='local') {
+      break;
+    }
+
       /* Create a new Contact **/
       $Contact = new ContactController;
       $Contact->store(json_encode($AdministrateContact));
